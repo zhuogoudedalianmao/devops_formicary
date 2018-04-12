@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  formicary:
+    build: ./formicary
+    container_name: formicary
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - DJANGO_SETTINGS_MODULE=formicary.production_settings
+    command: ["sh", "run.sh"]
+    volumes:
+      - ./formicary:/opt/formicary
+    expose:
+      - "8080"
+  
+  nginx:
+    image: nginx:1.12
+    links:
+      - formicary
+    volumes:
+      - ./formicary/static:/usr/share/nginx/static
+      - ./formicary/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./formicary/log/nginx:/var/log/nginx
+    ports:
+      - "8081:80"

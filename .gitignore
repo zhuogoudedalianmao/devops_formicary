@@ -1,0 +1,6 @@
+/formicary/.idea
+/formicary/*.sqlite3
+/formicary/formicary/*.pyc
+*.pyc
+/.idea
+
